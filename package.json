@@ -8,11 +8,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node":"6.2.2"
+    "node": "6.2.2"
   },
   "author": "Omkar Joshi",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
   }
 }
