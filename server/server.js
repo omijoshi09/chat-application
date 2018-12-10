@@ -23,14 +23,21 @@ io.on('connection',(socket)=>{
         createdAt:new Date()
     });
 
+    socket.on('createMessage',(message)=>{
+        console.log('createMessage',message);
+        io.emit('newMessageEvent',{
+            from:message.from,
+            text:message.text,
+            createdAt:new Date().getTime()
+        })
+    })
+
     socket.on('disconnect',(socket)=>{
         console.log('disconnected')
     });
 
 
-    socket.on('createMessage',(data)=>{
-        console.log('data',data);
-    })
+
 });
 
 server.listen(port,() => {
