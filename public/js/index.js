@@ -16,6 +16,16 @@ socket.on('newMessageEvent',(message)=>{
     jQuery('#messages').append(li);
 });
 
+socket.on('newLocationMessage',(locationInfo)=>{
+    var li = jQuery('<li></li>');
+    var a  = jQuery('<a target="_blank">My Curret location </a>')
+    li.text(`${locationInfo.from}:`);
+    a.attr('href',locationInfo.url);
+    li.append(a);
+    jQuery('#messages').append(li);
+
+})
+
 socket.emit('createMessage',{
     from:'frank',
     text:'Hi text...'
@@ -35,3 +45,21 @@ jQuery('#message-form').on('submit',function (e) {
 
     })
 })
+
+var locationButton = jQuery('#send-location');
+locationButton.on('click',function () {
+    if(!navigator.geolocation){
+        return alert('Geolocation not supported by browser')
+    }
+
+    navigator.geolocation.getCurrentPosition((position)=>{
+        console.log('position',position);
+        socket.emit('createLocationMessage',{
+            latitude:position.coords.latitude,
+            longitude:position.coords.longitude
+        })
+    },(error)=>{
+        alert('Unable to fetch location')
+    })
+})
+
