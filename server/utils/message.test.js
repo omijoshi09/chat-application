@@ -30,6 +30,6 @@ describe('generateLocationMessage',()=>{
         var locationInfo = generateLocationMessage(from,latitude,longitude);
 
         expect(typeof locationInfo.createdAt).toBe('number');
-        //expect(locationInfo).toInclude({from,url});
+        expect(locationInfo).toMatchObject({from});
     })
 })
