@@ -1,5 +1,6 @@
 var socket =  io();
 
+
 socket.on('connect',()=>{
     console.log('connected to server');
 
@@ -10,16 +11,18 @@ socket.on('disconnect',()=>{
 })
 
 socket.on('newMessageEvent',(message)=>{
+    var formatedTime = moment(message.createdAt).format('h:mm:a');
     console.log('message info',message)
     var li = jQuery('<li></li>');
-    li.text(`${message.from}:${message.text}`);
+    li.text(`${message.from} ${formatedTime}:${message.text}`);
     jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage',(locationInfo)=>{
     var li = jQuery('<li></li>');
-    var a  = jQuery('<a target="_blank">My Curret location </a>')
-    li.text(`${locationInfo.from}:`);
+    var formatedTime = moment(locationInfo.createdAt).format('h:mm:a');
+    var a  = jQuery('<a target="_blank">My Curret location </a>');
+    li.text(`${locationInfo.from}: ${formatedTime}`);
     a.attr('href',locationInfo.url);
     li.append(a);
     jQuery('#messages').append(li);
