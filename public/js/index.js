@@ -11,31 +11,54 @@ socket.on('disconnect',()=>{
 })
 
 socket.on('newMessageEvent',(message)=>{
+    var template = jQuery('#message-template').html();
     var formatedTime = moment(message.createdAt).format('h:mm:a');
+
+    var html = Mustache.render(template,{
+        text:message.text,
+        from:message.from,
+        createdAt:formatedTime
+    });
+
+    jQuery('#messages').append(html);
+
+
+
+
+   /* var formatedTime = moment(message.createdAt).format('h:mm:a');
     console.log('message info',message)
     var li = jQuery('<li></li>');
     li.text(`${message.from} ${formatedTime}:${message.text}`);
-    jQuery('#messages').append(li);
+    jQuery('#messages').append(li);*/
 });
 
 socket.on('newLocationMessage',(locationInfo)=>{
-    var li = jQuery('<li></li>');
+
+    console.log('locationInfo',locationInfo);
+
+    var template = jQuery('#location-template').html();
+    var formatedTime = moment(locationInfo.createdAt).format('h:mm:a');
+
+    var html = Mustache.render(template,{
+        from:locationInfo.from,
+        url:locationInfo.url,
+        createdAt:formatedTime
+    });
+
+    jQuery('#messages').append(html);
+
+
+
+   /* var li = jQuery('<li></li>');
     var formatedTime = moment(locationInfo.createdAt).format('h:mm:a');
     var a  = jQuery('<a target="_blank">My Curret location </a>');
     li.text(`${locationInfo.from}: ${formatedTime}`);
     a.attr('href',locationInfo.url);
     li.append(a);
-    jQuery('#messages').append(li);
+    jQuery('#messages').append(li);*/
 
 })
 
-socket.emit('createMessage',{
-    from:'frank',
-    text:'Hi text...'
-
-},function (data) {
-    console.log(data);
-});
 
 
 jQuery('#message-form').on('submit',function (e) {
@@ -56,7 +79,6 @@ locationButton.on('click',function () {
     if(!navigator.geolocation){
         return alert('Geolocation not supported by browser')
     }
-
 
     locationButton.attr('disabled','disabled').text('Sending location...');
 
