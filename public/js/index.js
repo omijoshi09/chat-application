@@ -1,5 +1,23 @@
 var socket =  io();
 
+function scrollToBottom(){
+
+    //Selectors
+    var messages = jQuery('#messages');
+    var newMessage = messages.children('li:last-child');
+
+    //Heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight  = newMessage.prev().innerHeight();
+
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+        messages.scrollTop(scrollHeight);
+    }
+}
+
 
 socket.on('connect',()=>{
     console.log('connected to server');
@@ -19,6 +37,8 @@ socket.on('newMessageEvent',(message)=>{
         from:message.from,
         createdAt:formatedTime
     });
+
+    scrollToBottom()
 
     jQuery('#messages').append(html);
 
@@ -45,17 +65,10 @@ socket.on('newLocationMessage',(locationInfo)=>{
         createdAt:formatedTime
     });
 
+    scrollToBottom();
+
     jQuery('#messages').append(html);
 
-
-
-   /* var li = jQuery('<li></li>');
-    var formatedTime = moment(locationInfo.createdAt).format('h:mm:a');
-    var a  = jQuery('<a target="_blank">My Curret location </a>');
-    li.text(`${locationInfo.from}: ${formatedTime}`);
-    a.attr('href',locationInfo.url);
-    li.append(a);
-    jQuery('#messages').append(li);*/
 
 })
 
