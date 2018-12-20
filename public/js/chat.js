@@ -20,7 +20,16 @@ function scrollToBottom(){
 
 
 socket.on('connect',()=>{
-    console.log('connected to server');
+    var params = jQuery.deparam(window.locationButton.search);
+
+    socket.emit('join',params,((err)=>{
+        if(err){
+            alert(err);
+            window.location.href = '/';
+        }else{
+            console.log('no error');
+        }
+    }))
 
 });
 
