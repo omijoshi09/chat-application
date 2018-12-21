@@ -33,9 +33,20 @@ socket.on('connect',()=>{
 
 });
 
+socket.on('updateUserList',(users)=>{
+    console.log('user list',users);
+    var ol = jQuery('<ol></ol>');
+
+    users.forEach((user)=>{
+        ol.append(jQuery('<li></li>').text(user))
+    })
+
+    jQuery('#users').html(ol);
+})
+
 socket.on('disconnect',()=>{
     console.log('disconnect from server');
-})
+});
 
 socket.on('newMessageEvent',(message)=>{
     var template = jQuery('#message-template').html();
@@ -89,7 +100,6 @@ jQuery('#message-form').on('submit',function (e) {
     var messageTextbox = jQuery('[name=message]');
 
     socket.emit('createMessage',{
-        from:'User',
         text:messageTextbox.val()
     },function () {
         messageTextbox.val('')
