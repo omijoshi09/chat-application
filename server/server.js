@@ -37,6 +37,7 @@ io.on('connection',(socket)=>{
         socket.broadcast.to(params.room).emit('newMessageEvent',generateMessage('Admin',`${params.name} has joined`)); //will send message to everyone except the current user
 
 
+        
         //socket.emit => will send personal message to two user no need to use room
         socket.emit('newMessageEvent',generateMessage('Admin','Welcome to the chat app'));
 
