@@ -34,7 +34,7 @@ io.on('connection',(socket)=>{
 
 
         //socket.broadcast.emit => socket.broadcast.to('the office fam').emit  - will send message to all person in this room except current user
-        socket.broadcast.to(params.room).emit('newMessageEvent',generateMessage('Admin',`${params.name}has joined`)); //will send message to everyone except the current user
+        socket.broadcast.to(params.room).emit('newMessageEvent',generateMessage('Admin',`${params.name} has joined`)); //will send message to everyone except the current user
 
 
         //socket.emit => will send personal message to two user no need to use room
